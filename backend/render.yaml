@@ -1,0 +1,27 @@
+# Render.com Blueprint — auto-creates the service when this repo is connected.
+# Docs: https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: wedding-api
+    runtime: docker
+    plan: free
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ADMIN_EMAIL
+        value: admin@wedding.com
+      - key: ADMIN_PASSWORD
+        sync: false        # set this manually in the Render dashboard
+      - key: COUPLE_BRIDE
+        value: Pooja
+      - key: COUPLE_GROOM
+        value: Shiva
+      - key: SITE_URL
+        sync: false        # set to your Firebase Hosting URL after step 2
+      # Optional Firestore (set in dashboard if you enable it):
+      # - key: FIREBASE_PROJECT_ID
+      #   sync: false
+      # - key: FIREBASE_API_KEY
+      #   sync: false

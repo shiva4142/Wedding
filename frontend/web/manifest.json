@@ -1,0 +1,12 @@
+{
+  "name": "Pooja & Shiva · Wedding",
+  "short_name": "Wedding",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fdf9f3",
+  "theme_color": "#fdf9f3",
+  "description": "A premium digital wedding invitation",
+  "orientation": "portrait-primary",
+  "prefer_related_applications": false,
+  "icons": []
+}

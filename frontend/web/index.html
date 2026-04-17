@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Shiva & Pooja — Wedding Invitation. Save the date and RSVP online.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Wedding">
+  <meta name="theme-color" content="#fdf9f3">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <title>Shiva &amp; Pooja · Wedding Invitation</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    html, body { margin: 0; padding: 0; background: #fdf9f3; }
+    .splash {
+      position: fixed; inset: 0; display: flex; align-items: center;
+      justify-content: center; flex-direction: column; gap: 14px;
+      font-family: Georgia, serif; color: #c93f66;
+      background: radial-gradient(circle at 50% 30%, #fff5f7 0%, #fdf9f3 70%);
+    }
+    .splash h1 { font-size: 42px; margin: 0; font-weight: 500; letter-spacing: .04em; font-style: italic; }
+    .splash p { color: #8c6f15; letter-spacing: .3em; text-transform: uppercase; font-size: 11px; margin: 0; }
+    .pulse {
+      width: 14px; height: 14px; border-radius: 50%;
+      background: #c93f66; animation: p 1.4s ease-in-out infinite;
+    }
+    @keyframes p { 0%,100% { transform: scale(.6); opacity:.5 } 50% { transform: scale(1); opacity:1 } }
+  </style>
+</head>
+<body>
+  <div id="splash" class="splash">
+    <span class="pulse"></span>
+    <h1>S &amp; P</h1>
+    <p>Loading the invitation</p>
+  </div>
+  <script src="flutter_bootstrap.js" async></script>
+  <script>
+    window.addEventListener('flutter-first-frame', function() {
+      var splash = document.getElementById('splash');
+      if (splash) splash.remove();
+    });
+  </script>
+</body>
+</html>
