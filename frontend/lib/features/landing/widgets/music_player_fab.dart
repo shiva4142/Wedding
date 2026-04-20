@@ -6,8 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../services/providers.dart';
 
-const _musicUrl =
-    'https://cdn.pixabay.com/download/audio/2022/10/25/audio_946bc4f1dd.mp3?filename=romantic-piano-122915.mp3';
+/// Bundled track: add `assets/audio/wedding_song.mp3` (see assets/audio/README.md).
+const _musicAsset = 'assets/audio/wedding_song.mp3';
 
 class MusicPlayerFab extends ConsumerStatefulWidget {
   const MusicPlayerFab({super.key});
@@ -35,7 +35,7 @@ class _MusicPlayerFabState extends ConsumerState<MusicPlayerFab> {
     final on = !ref.read(musicOnProvider);
     ref.read(musicOnProvider.notifier).state = on;
     if (on) {
-      await _player.play(UrlSource(_musicUrl));
+      await _player.play(AssetSource(_musicAsset));
     } else {
       await _player.pause();
     }

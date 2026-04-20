@@ -35,4 +35,5 @@ flutter:
   assets:
     - assets/images/
     - assets/images/gallery/
+    - assets/audio/wedding_song.mp3
 
