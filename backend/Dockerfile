@@ -14,13 +14,16 @@ WORKDIR /app/build
 RUN dart pub get --offline || dart pub get
 RUN dart compile exe bin/server.dart -o bin/server
 
-# Runtime stage: tiny image with just the binary.
-FROM debian:stable-slim
-RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
-WORKDIR /app
-COPY --from=build /app/build/bin/server /app/bin/server
+# Runtime: `scratch` + bundled Dart AOT runtime.
+# Do NOT use `COPY /runtime/ /` on Debian/Ubuntu bases — their `/lib` is a
+# symlink and BuildKit fails with "cannot copy to non-directory".
+FROM scratch
+
 COPY --from=build /runtime/ /
+COPY --from=build /app/build/bin/server /app/bin/server
+
+# CA bundle for HTTPS (Firestore REST, external APIs).
+COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 
 ENV PORT=8080
 EXPOSE 8080
