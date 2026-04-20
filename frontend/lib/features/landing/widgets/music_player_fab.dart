@@ -1,4 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,8 +7,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../services/providers.dart';
 
-/// Bundled track: add `assets/audio/wedding_song.mp3` (see assets/audio/README.md).
-const _musicAsset = 'assets/audio/wedding_song.mp3';
+/// Path *inside* the Flutter `assets/` folder (pubspec: `assets/audio/wedding_song.mp3`).
+/// [AudioPlayer] adds the `assets/` prefix — do not repeat it or the file 404s on web.
+const _musicAsset = 'audio/wedding_song.mp3';
 
 class MusicPlayerFab extends ConsumerStatefulWidget {
   const MusicPlayerFab({super.key});
@@ -16,13 +18,17 @@ class MusicPlayerFab extends ConsumerStatefulWidget {
 }
 
 class _MusicPlayerFabState extends ConsumerState<MusicPlayerFab> {
-  final _player = AudioPlayer();
+  late final AudioPlayer _player = AudioPlayer();
 
   @override
   void initState() {
     super.initState();
+    if (kIsWeb) {
+      // Long-form music on web: avoid low-latency mode (can fail for MP3).
+      _player.setPlayerMode(PlayerMode.mediaPlayer);
+    }
     _player.setReleaseMode(ReleaseMode.loop);
-    _player.setVolume(0.35);
+    _player.setVolume(0.5);
   }
 
   @override
@@ -32,11 +38,23 @@ class _MusicPlayerFabState extends ConsumerState<MusicPlayerFab> {
   }
 
   Future<void> _toggle() async {
-    final on = !ref.read(musicOnProvider);
-    ref.read(musicOnProvider.notifier).state = on;
+    final wasOn = ref.read(musicOnProvider);
+    final on = !wasOn;
     if (on) {
-      await _player.play(AssetSource(_musicAsset));
+      try {
+        await _player.play(AssetSource(_musicAsset));
+        if (mounted) ref.read(musicOnProvider.notifier).state = true;
+      } catch (e, st) {
+        debugPrint('Music play failed: $e\n$st');
+        if (mounted) {
+          ref.read(musicOnProvider.notifier).state = false;
+          ScaffoldMessenger.maybeOf(context)?.showSnackBar(
+            SnackBar(content: Text('Could not play music: $e')),
+          );
+        }
+      }
     } else {
+      ref.read(musicOnProvider.notifier).state = false;
       await _player.pause();
     }
   }

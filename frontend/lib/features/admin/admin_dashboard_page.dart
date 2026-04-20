@@ -224,26 +224,50 @@ class _AdminDashboardPageState extends ConsumerState<AdminDashboardPage> {
   }
 
   Widget _header() {
-    return Wrap(
-      spacing: 14,
-      runSpacing: 12,
-      crossAxisAlignment: WrapCrossAlignment.center,
+    final title = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Wedding Admin',
-                style: AppTheme.script(size: 28, color: AppPalette.roseDeep)),
-            Text('${WeddingConfig.groom} & ${WeddingConfig.bride}',
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontSize: 30)),
-          ],
-        ),
-        const Spacer(),
+        Text('Wedding Admin',
+            style: AppTheme.script(size: 28, color: AppPalette.roseDeep)),
+        Text('${WeddingConfig.groom} & ${WeddingConfig.bride}',
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontSize: 30)),
+      ],
+    );
+
+    final actions = Wrap(
+      spacing: 10,
+      runSpacing: 10,
+      alignment: WrapAlignment.end,
+      children: [
         ui.GhostButton(
             label: 'View Site', icon: Icons.open_in_new, onPressed: () => context.go('/')),
         ui.PrimaryButton(label: 'Export CSV', icon: Icons.download, onPressed: _exportCsv),
         ui.GhostButton(label: 'Logout', icon: Icons.logout, onPressed: _logout),
       ],
+    );
+
+    // Do not use [Spacer] inside [Wrap] — it only works in Row/Column and breaks layout on web.
+    return LayoutBuilder(
+      builder: (context, c) {
+        if (c.maxWidth < 720) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              title,
+              const SizedBox(height: 16),
+              actions,
+            ],
+          );
+        }
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(child: title),
+            const SizedBox(width: 16),
+            actions,
+          ],
+        );
+      },
     );
   }
 
