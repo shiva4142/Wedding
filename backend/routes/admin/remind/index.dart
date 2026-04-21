@@ -30,7 +30,7 @@ Future<Response> onRequest(RequestContext context) async {
   final coupleGroom =
       Platform.environment['COUPLE_GROOM'] ?? 'Shiva';
 
-  final inviteUrl = '$siteUrl/#/invite?guest=${Uri.encodeQueryComponent(slug)}';
+  final inviteUrl = '$siteUrl/invite?guest=${Uri.encodeQueryComponent(slug)}';
   final text =
       "Hi $name! A gentle reminder to RSVP for $coupleBride & $coupleGroom's wedding. Please take a moment: $inviteUrl";
   final waLink =
