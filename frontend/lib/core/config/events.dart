@@ -29,7 +29,7 @@ final weddingEvents = <WeddingEvent>[
     id: 'haldi',
     title: 'Haldi Ceremony',
     emoji: '🌼',
-    date: DateTime(2026, 5, 30, 10, 0),
+    date: DateTime(2026, 4, 30, 10, 0),
     location: 'Shiva\'s Residence, Kodumur',
     mapQuery: 'Kodumur, Kurnool, Andhra Pradesh',
     description:
@@ -41,7 +41,7 @@ final weddingEvents = <WeddingEvent>[
     id: 'mehendi',
     title: 'Mehendi Night',
     emoji: '🌿',
-    date: DateTime(2026, 5, 29, 17, 0),
+    date: DateTime(2026, 4, 29, 17, 0),
     location: 'Pooja\'s Residence, Kandagal',
     mapQuery: 'kandagal, ilkal, bagalkot, karnataka',
     description:

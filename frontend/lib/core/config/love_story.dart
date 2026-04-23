@@ -72,5 +72,5 @@ const galleryImages = <String>[
   'assets/images/gallery/Shiva.jpeg',
   'assets/images/gallery/Pooja.jpeg',
   'assets/images/gallery/Pradya.jpeg',
-  'assets/images/gallery/Brother.jpeg',
+  'assets/images/gallery/Brother.png',
 ];

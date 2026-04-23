@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:uuid/uuid.dart';
 import 'package:wedding_backend/models.dart';
 import 'package:wedding_backend/firestore_rest.dart';
+import 'package:wedding_backend/supabase_rest.dart';
 
 /// A unified data store that uses Firestore (REST API) when configured,
 /// otherwise falls back to an in-memory store seeded with sample data.
@@ -15,6 +16,16 @@ import 'package:wedding_backend/firestore_rest.dart';
 /// (or wire a service account). See README for full instructions.
 abstract class Store {
   factory Store.create() {
+    final supabaseUrl = Platform.environment['SUPABASE_URL'];
+    final supabaseKey = Platform.environment['SUPABASE_KEY'];
+    if (supabaseUrl != null &&
+        supabaseKey != null &&
+        supabaseUrl.isNotEmpty &&
+        supabaseKey.isNotEmpty) {
+      print('[store] Using Supabase url=$supabaseUrl');
+      return SupabaseStore(url: supabaseUrl, key: supabaseKey);
+    }
+
     final projectId = Platform.environment['FIREBASE_PROJECT_ID'];
     final apiKey = Platform.environment['FIREBASE_API_KEY'];
     if (projectId != null && apiKey != null && projectId.isNotEmpty) {

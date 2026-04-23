@@ -1,0 +1,3 @@
+# Flutter web uses path URLs (usePathUrlStrategy). Netlify must serve index.html
+# for every route so /invite, /admin/login, etc. work when opened directly or from WhatsApp.
+/*    /index.html   200
